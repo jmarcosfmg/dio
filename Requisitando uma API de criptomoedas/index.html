@@ -1,0 +1,51 @@
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinMarketCap</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <script type="text/javascript">
+     // API key
+     var apikey = {
+         key: '055b824a-5e89-4fc3-8396-b9533e7a07c7'
+     }
+     
+     // GET fetch requisition
+     fetch('https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY='+
+            apikey.key)
+            .then((response) => {
+                if(!response.ok) throw new Error('Erro ao executar a requisição, status'+ response.status);
+                return response.json();
+            })
+            .then((api) => {
+
+                var texto = "";
+                for(let i = 0; i <10; i++){
+                    // Show API information
+
+                    texto = texto + `
+
+                    <div class="media">
+                        <img src="coin.jpg" alt="coin" class="align-self-center mr-3" width="166" height="100">
+                        <div class="media-body">
+                            <h5 class="mt-2">${api.data[i].name}</h5>
+                            <p>${api.data[i].symbol}</p>
+                            <p>${api.data[i].first_historical_data}</p> 
+                        </div>
+                    </div>
+
+                    `;     
+                    
+                    document.getElementById("coins").innerHTML = texto;
+                }
+                console.log(api);
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
+    </script>
+    <div id="coins"></div>
+</body>
+</html>
